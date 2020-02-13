@@ -1,0 +1,10 @@
+console=ttyO0,115200
+ipaddr=192.168.27.2
+serverip=192.168.27.1
+loadaddr=0x82000000
+fdtaddr=0x88000000
+ramfsaddr=0x88080000
+ipsetting=setenv serverip 192.168.27.1;setenv ipaddr 192.168.27.2
+loadfromsd=tftpboot ${loadaddr} uImage;tftpboot ${fdtaddr} am335x-boneblack.dtb; tftpboot ${ramfsaddr} initramfs
+linuxbootargs=setenv bootargs console=${console} root=/dev/ram0 rw initrd={ramfsaddr} 
+uenvcmd=setenv autoload no; run ipsetting; run loadfromsd; run linuxbootargs; bootm ${loadaddr} - ${ramfsaddr} - ${fdtaddr}
