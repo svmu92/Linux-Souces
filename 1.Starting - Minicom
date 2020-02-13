@@ -1,0 +1,8 @@
+Enter the command:
+$ sudo minicom -s
+
+Enter--->Serial port settings---->
+Setup Device name
+Setup Comm parameters ---> 115200 8N1
+
+

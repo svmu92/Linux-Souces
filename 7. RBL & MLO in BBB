@@ -1,0 +1,32 @@
+-download MLO from https://github.com/BharatRaj-G/EmbeddedLinux/tree/master/BeagleBone_LinuxBuild/AngstromDistribution/Angstrom-v2012.12%20-%202013.06.20
+-Partition the uSD Card into two 
+	Partition 1 - FAT (BOOT) - around 1GB
+	Partition 2 - Ext3 (ROOTFS)
+
+-Set "boot" flag for BOOT partition
+-Copy MLO to BOOT partition
+-Eject SD Card and insert to BBB.
+
+
+-Power the BBB with S2 pressed
+-Following messages appear
+
+U-Boot SPL 2013.04-dirty (Jun 19 2013 - 09:57:14)
+musb-hdrc: ConfigData=0xde (UTMI-8, dyn FIFOs, HB-ISO Rx, HB-ISO Tx, SoftConn)
+musb-hdrc: MHDRC RTL version 2.0 
+musb-hdrc: setup fifo_mode 4
+musb-hdrc: 28/31 max ep, 16384/16384 memory
+USB Peripheral mode controller at 47401000 using PIO, IRQ 0
+musb-hdrc: ConfigData=0xde (UTMI-8, dyn FIFOs, HB-ISO Rx, HB-ISO Tx, SoftConn)
+musb-hdrc: MHDRC RTL version 2.0 
+musb-hdrc: setup fifo_mode 4
+musb-hdrc: 28/31 max ep, 16384/16384 memory
+USB Host mode controller at 47401800 using PIO, IRQ 0
+OMAP SD/MMC: 0
+reading u-boot.img
+spl: error reading image u-boot.img, err - -1
+### ERROR ### Please RESET the board ###
+
+
+
+

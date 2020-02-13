@@ -1,0 +1,20 @@
+Step1
+ Download source code from https://busybox.net/downloads/
+	-Extract
+
+Step2
+ Apply the default configurations
+	$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- defconfig 
+
+Step3
+ Change any settings if required using menuconfig
+	$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
+	-building in static way : Settings---->Build static binary
+
+Step4
+ Building the binary
+	$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CONFIG_PREFIX=<install_path> install
+
+
+-Three folders are created - bin, sbin, usr. All the files (commands) in bin and sbin, usr/bin and usr/sbin point to busybox file in bin folder
+

@@ -1,0 +1,85 @@
+In arch/arm/kernel/head.S, you will find
+
+/*
+ * Kernel startup entry point.
+ * ---------------------------
+ *
+ * This is normally called from the decompressor code.  The requirements
+ * are: MMU = off, D-cache = off, I-cache = dont care, r0 = 0,
+ * r1 = machine nr, r2 = atags or dtb pointer.
+ *
+ * This code is mostly position independent, so if you link the kernel at
+ * 0xc0008000, you call this at __pa(0xc0008000).
+ *
+ * See linux/arch/arm/tools/mach-types for the complete list of machine
+ * numbers for r1.
+ *
+ * We're trying to keep crap to a minimum; DO NOT add any machine specific
+ * crap here - that's what the boot loader (or in extreme, well justified
+ * circumstances, zImage) is for.
+ */
+
+
+
+
+-Important Subroutines in the file
+
+1) Check for proper processor architecture type
+
+
+
+/*
+	 * The following calls CPU specific code in a position independent
+	 * manner.  See arch/arm/mm/proc-*.S for details.  r10 = base of
+	 * xxx_proc_info structure selected by __lookup_processor_type
+	 * above.
+	 *
+	 * The processor init function will be called with:
+	 *  r1 - machine type
+	 *  r2 - boot data (atags/dt) pointer
+	 *  r4 - translation table base (low word)
+	 *  r5 - translation table base (high word, if LPAE)
+	 *  r8 - translation table base 1 (pfn if LPAE)
+	 *  r9 - cpuid
+	 *  r13 - virtual address for __enable_mmu -> __turn_mmu_on
+	 *
+	 * On return, the CPU will be ready for the MMU to be turned on,
+	 * r0 will hold the CPU control register value, r1, r2, r4, and
+	 * r9 will be preserved.  r5 will also be preserved if LPAE.
+	 */
+
+- Processor architecture specific initialization code in "arch/arm/mm/proc-*.S"
+-If successful, MMU is turned on
+
+
+
+2) start_kernel() is called from arch/arm/kernel/"head-common.s"
+
+/*
+ * The following fragment of code is executed with the MMU on in MMU mode,
+ * and uses absolute addresses; this is not position independent.
+ *
+ *  r0  = cp#15 control register
+ *  r1  = machine ID
+ *  r2  = atags/dtb pointer
+ *  r9  = processor ID
+ */
+...
+...
+...
+ ARM(	ldmia	r3, {r4, r5, r6, r7, sp})
+ THUMB(	ldmia	r3, {r4, r5, r6, r7}	)
+ THUMB(	ldr	sp, [r3, #16]		)
+	str	r9, [r4]			@ Save processor ID
+	str	r1, [r5]			@ Save machine type
+	str	r2, [r6]			@ Save atags pointer
+	cmp	r7, #0
+	strne	r0, [r7]			@ Save control register values
+	b	start_kernel
+ENDPROC(__mmap_switched)
+
+
+
+
+
+

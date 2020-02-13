@@ -1,0 +1,89 @@
+In Linux for BBB kernel source,
+
+$ vi /arch/arm/boot/compressed/head.s
+
+....
+....
+AR_CLASS(	.arm	)
+start:
+		.type	start,#function
+		.rept	7
+		__nop
+		.endr
+#ifndef CONFIG_THUMB2_KERNEL
+		mov	r0, r0
+#else
+ AR_CLASS(	sub	pc, pc, #3	)	@ A/R: switch to Thumb2 mode
+  M_CLASS(	nop.w			)	@ M: already in Thumb2 mode
+		.thumb
+#endif
+		W(b)	1f
+
+		.word	_magic_sig	@ Magic numbers to help the loader
+		.word	_magic_start	@ absolute load/run zImage address
+		.word	_magic_end	@ zImage end address
+		.word	0x04030201	@ endianness flag
+
+		__EFI_HEADER
+1:
+ ARM_BE8(	setend	be		)	@ go BE8 if compiled for BE8
+ AR_CLASS(	mrs	r9, cpsr	)
+#ifdef CONFIG_ARM_VIRT_EXT
+		bl	__hyp_stub_install	@ get into SVC mode, reversibly
+#endif
+		mov	r7, r1			@ save architecture ID
+		mov	r8, r2			@ save atags pointer
+....
+....
+
+
+
+- Decompression of the compressed kernel happens in "misc.c" 
+- It is called from "head.s"
+	bl	decompress_kernel
+
+- In "misc.c", find
+
+void
+decompress_kernel(unsigned long output_start, unsigned long free_mem_ptr_p,
+		unsigned long free_mem_ptr_end_p,
+		int arch_id)
+{
+	int ret;
+
+	__stack_chk_guard_setup();
+
+	output_data		= (unsigned char *)output_start;
+	free_mem_ptr		= free_mem_ptr_p;
+	free_mem_end_ptr	= free_mem_ptr_end_p;
+	__machine_arch_type	= arch_id;
+
+	arch_decomp_setup();
+
+	putstr("Uncompressing Linux...");
+	ret = do_decompress(input_data, input_data_end - input_data,
+			    output_data, error);
+	if (ret)
+		error("decompressor returned an error");
+	else
+		putstr(" done, booting the kernel.\n");
+}
+
+
+
+- Here decompression happens
+- Then control goes to "head.s" in folder arch/arm/kernel
+
+-In this file "head.S" and friends, following things are done:
+1. CPU specific initialization
+2. checks for valid processor architecture
+3. page table inits
+4. initialize and prepare MMU for the identified processor architecture
+5. Enable MMU to support virtual memory
+6. Calls "start kernel" function of the main.c ("Arch" independent code)
+
+
+
+
+
+

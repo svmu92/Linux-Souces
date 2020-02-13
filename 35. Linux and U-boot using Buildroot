@@ -1,0 +1,15 @@
+- In buildroot configuration, 
+ Under Kernel ----> Select Linux Kernel
+					----> Kernel version
+					----> Kernel configuration ----> in-tree defconfig
+					----> Defconfig name ----> bb.org (omap2plus for Linux 4.19)
+					----> Kernel binary format ---->  uImage
+					----> Load Address ----> 0x80008000
+					----> Build Device Tree Blob ----> In-Tree Device Tree Source Filename ----> am335x-boneblack
+		----> Bootloaders
+					----> U-boot ----> Board defconfig ----> am335x_boneblack
+						     ----> U-boot needs DTC
+						     ----> U-boot binary format ----> u-boot.img
+						     ----> Install U-Boot SPL binary image
+- $ make -j4
+						

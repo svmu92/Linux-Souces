@@ -1,0 +1,19 @@
+-176 kB of ROM
+-additional shared RAM of 128 kB inside SoC
+-initialization----> _main() stack setup ------> main() ------> Watch Dog timer setup (for 3 mins, that means, if it cant load SPL within 3 mins, the processor) will be reset ------> Clock setup through PLL (24 MHz crystal oscillator input ----> upto 800 MHz output) -----> Search memory devices for MLO or SPL ------> Copy SPL into the internal SRAM of SoC ----> Execute MLO or SPL. 
+
+
+Clock Configuration
+-24 MHz crystal oscillator input ----> upto 800 MHz output
+-Based on value of SYSBOOT[15:14] bits, RBL comes to know about the value of the crystal oscillator connected to SoC
+	00b	-	19.2 MHz
+	01b	-	24 MHz
+	10b	-	25 MHz
+	11b	-	26 MHz
+-On BBB, we have 24 MHz oscillator (Y2)
+-MPUADPLLS is locked to provide 500 MHz for the A8
+-RBL tries to fetch the SPL from the device list as per the value of SYSBOOT[4:0]
+-When/If found, the RBL copies the SPL to the internal RAM (64 kB + 64 kB shared)
+
+-MLO will have its own image header - decided by TI - which contains some info like load address (0x4000 0000),size of the image to follow etc.
+-

@@ -1,0 +1,21 @@
+Jobs
+1. Initialize some of the peripherals like UART, I2C, NAND, FLASH, ETHERNET, USB, MMC etc. because it supports loading kernel from all these peripherals.
+2. Load the Linux kernel image from various boot sources to the DDR memory of the board.
+3. Boot Sources: USB, eMMC, SD Card, Ethernet, serial port, NAND flash etc.
+4. Passing of boot arguments to the kernel.
+
+-uEnv.txt
+- Consists of environment variables values of the u-boot which directs u-boot how to behave
+
+
+- U-boot always looks for uImage - zImage + U-boot header (64 bytes) 
+ -zImage - ELF
+ - Append zImage to u-boot header using "mkimage" command
+
+
+- Download Angstrom rootfs from link https://dominion.thruhere.net/koen/angstrom/beagleboard/
+- Extract the folders
+- Copy the folders to ROOTFS partition of the SDCard.
+- Add "uEnv.txt" to the BOOT partition
+
+

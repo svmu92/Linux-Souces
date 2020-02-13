@@ -1,0 +1,26 @@
+Linux "init" program
+ - Busybox "init"
+ - System V "init"
+
+-Buysbox "init" -----> rcS -----> /etc/init.d/
+-System V "init" ------> inittab -----> /etc/init.d
+
+-rcS - used to launch services/daemons during startup
+	may include: start networking, sshd, nfs, load modules, start daemons, telnet, mountFS etc.
+
+ -In folder /etc/init.d/
+	-file rcS - start scripts
+	-file rcK - shutdown scripts
+	-files starting with S - start scripts to be executed
+
+-Keep the scripts in /srv/nfs/bbb/etc/init.d folder
+-Create folder /srv/nfs/bbb/proc also
+
+-To enable ethernet-over-usb, we have to load the driver modules
+ # modprobe g_ether
+ # lsmod
+ 
+ # ifconfig usb0 192.168.6.2 up
+
+-Edit /etc/network/interfaces to add usb0 and eth0 interfaces and static address allocation
+ 

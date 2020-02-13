@@ -1,0 +1,14 @@
+STEP1
+ Download arm cross toolchain for host machine
+	-link	: https://releases.linaro.org/components/toolchain/binaries/7.4-2019.02/
+	-folder	: arm-linux-gnueabihf 	
+	-file	: gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf.tar.xz
+
+STEP2
+ Export path of the cross-compilation toolchain
+	- $ export PATH=$PATH:/path/to/bin_folder
+	- $ export PATH=$PATH:/home/you2brutus/Documents/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf/bin
+	- Append the command to ~/.bashrc : export PATH=$PATH:/home/you2brutus/Documents/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf/bin
+	- In terminal type: $source ~/.bashrc
+
+

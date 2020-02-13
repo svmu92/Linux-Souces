@@ -1,0 +1,32 @@
+1. Load the uImage from memory device to DDR memory
+2. Use the memory dump command of the U-boot to dump header information
+
+While booting, when you see : Hit any key to stop autoboot, press some key, it takes you to U-boot prompt
+
+U-boot#
+
+1) U-boot# help load
+ - list the usage and option of using load command
+
+load usage:
+load <interface> [<dev[:part]> [<addr> [<filename> [bytes [pos]]]]] 
+
+
+2) U-boot# load mmc 0:2 0x82000000 /boot/uImage
+-Loads the uImage to DDR
+
+
+3) U-boot# help md
+ - memory display command
+ - Usage: md [.b, .w, .1] address [# of objects]
+
+4) U-boot# md 0x82000000 10
+ - display the RAM contents
+ - can manually check the header contents
+
+5) U-boot# help imi
+ - print header infor for application image
+ - Usage: iminfo addr [addr...]
+
+
+

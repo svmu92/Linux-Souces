@@ -1,0 +1,61 @@
+NFS stands for Network File System. This tutorial is going to show you how to configure NFS share on Ubuntu 16.04 so that other computes in your local network can access files and directories on the Ubuntu 16.04 system. We will see how to configure the server side and the client side.
+
+NFS allows directories and file systems to be shared across a local network. NFS can also be set up over the Internet but it’s not secure. In this tutorial, we will set up NFS file share in a home network with two Ubuntu 16.04 computers.
+Step 1: Configure the NFS Server
+
+On the first Ubuntu 16.04 computer, install nfs-kernel-server packages.
+
+sudo apt install nfs-kernel-server
+
+Then edit the exports file with nano text editor. The exports files tell NFS server which directories or file systems will be shared to client.
+
+sudo nano /etc/exports
+
+The syntax is as follows
+
+/path/to/directory     client-IP address(options)
+
+For example, you want to share you home directory to the second Ubuntu computer with IP address 192.168.1.101, then put the following line at the end of the file. Replace username with your actual username. Delimit the two columns with Tab key.
+
+/home/username      192.168.1.101(rw,sync,root_squash,subtree_check)
+
+
+Press Ctrl+O to save the file, then CTRL+X to exit out of the file. The IP address of the client computer can be found by running the following command on the client side.
+
+ifconfig
+
+
+
+Step 2: Configure the Client
+
+On the second Ubuntu computer, install nfs-common package.
+
+sudo apt install nfs-common
+
+Then edit /etc/fstab file.
+
+sudo nano /etc/fstab
+
+Add the following line in the file. Replace nfs-server-ip with the IP address of the first Ubuntu computer.
+
+nfs-server-ip:/home/username    /mnt/nfs-share      nfs       rw,soft,intr,noatime,x-gvfs-show
+
+The above line will mount the home directory under /mnt/nfs-share directory in read and write mode. x-gvfs-show option will let you see the shared directory in your file manager.
+
+Save and close the file. Then create the mount point.
+
+sudo mkdir /mnt/nfs-share
+
+Next, run the below command
+
+sudo mount -a
+
+Now you can access the server’s home directory in your file manager.
+
+If you want to share your home directory with all computers in your home network, then add this line in /etc/exports file, supposing 192.168.1.1 is the IP address of your router.
+
+/home/username     192.168.1.0/24(rw,sync,root_squash,subtree_check)
+
+If you make any changes to /etc/exports file on the server side, then run the below command to tell NFS server to re-read /etc/exports file.
+
+sudo exportfs -ra

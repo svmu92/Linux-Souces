@@ -1,0 +1,29 @@
+-Flattened Device Tree
+
+-The on-board peripherals which connect to I2C,SPI,SDIO,ETHERNET etc have no capability to announce their existence on the board by themselves to the OS. Also called "Platform devices"
+
+-Not dynamically discoverable
+-So OS doesn't know how to connect them.
+
+-USB devices can announce themselves and are dynamically discoverable.
+
+-Platform device details are hard-coded in a file called "board file"
+
+-So create a file my-board-config-file.c which has the function my_board_init(). Inside this function, each platform device can be added to the linux system along with corresponding platform data.
+
+-When a driver for a particular platform device is loaded, the Linux calls the "probe" function of the driver to see if there is any match in its platform database. In the "Probe" function, you can do device initializations.
+
+-Different boards will have different onboard peripherals so each board should have its own board file.
+
+-Linux community wanted to cut off the dependencies of platform device enumeration from the Linux kernel, that is, hard coding of platform device specific details into the kernel.
+
+
+-Device Tree Source - Instead of hard coding the details to the Linux board file, every board vendor has to come up with a file called DTS.
+- DTS file consists of all the details related to the board written using some pre-defined syntaxes. This file consists of data structures which describe all the required peripherals of the board.
+
+-A compiler called DTC compiles these source files to create a binary called DTB (Device Tree Binary) which encodes the details of the hardware.
+-So no need to recompile the kernel to add a new device, just recompile the DTS and get new DTB.
+
+-When kernel boots, we have to show the kernel where the DTB resides in the memory. Kernel will load the DTB file and extract all the peripheral detials.
+
+

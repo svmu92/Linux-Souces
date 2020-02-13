@@ -1,0 +1,82 @@
+In file init/main.c,
+- start_kernel ()
+asmlinkage __visible void __init start_kernel(void)
+{
+....
+}
+
+
+- prints linux banner string from init/version.c
+	/*
+	 * Interrupts are still disabled. Do necessary setups, then
+	 * enable them.
+	 */
+	boot_cpu_init();
+	page_address_init();
+	pr_notice("%s", linux_banner);
+	setup_arch(&command_line);
+	/*
+	 * Set up the the initial canary and entropy after arch
+	 * and after adding latent and command line entropy.
+
+
+-In init/version.c,
+
+/* FIXED STRINGS! Don't touch! */
+const char linux_banner[] =
+	"Linux version " UTS_RELEASE " (" LINUX_COMPILE_BY "@"
+	LINUX_COMPILE_HOST ") (" LINUX_COMPILER ") " UTS_VERSION "\n";
+
+
+
+-- Back In file init/main.c, start_kernel(void)
+- Various other peripheral initializations are done
+-Finally, it calls
+
+	/* Do the rest non-__init'ed, we're now alive */
+	rest_init();
+
+
+
+- In rest_init(), two kernel threads are created,
+
+
+pid = kernel_thread(kernel_init, NULL, CLONE_FS);
+
+and
+
+pid = kernel_thread(kthreadd, NULL, CLONE_FS | CLONE_FILES);
+
+
+
+-kernel_init thread will get PID 1
+-kthreadd will get PID 2
+
+-kernel_init will spawn the first user application init which inherits PID1
+-kthreadd will spawn other kernel threads
+
+
+- Inside kernel_init()
+
+static int __ref kernel_init(void *unused)
+{
+	int ret;
+
+	kernel_init_freeable();
+	/* need to finish all async __init code before freeing the memory */
+	async_synchronize_full();
+	ftrace_free_init_mem();
+	free_initmem();
+
+-init memory is freed. M/y used by the initialization functions so far will be reclaimed, because those functions are no longer nedded and no one will call them.
+
+-After that,
+
+	if (!try_to_run_init_process("/sbin/init") ||
+	    !try_to_run_init_process("/etc/init") ||
+	    !try_to_run_init_process("/bin/init") ||
+	    !try_to_run_init_process("/bin/sh"))
+		return 0;
+
+
+

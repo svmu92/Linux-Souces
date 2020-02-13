@@ -1,0 +1,35 @@
+- Keep the serial to USB converter connected
+- Boot the BBB
+- Login
+- $ ifconfig
+- it will list eth0,lo,usb0 and usb1
+- usb0 has ip 192.168.7.2
+- usb1 has ip 192.168.6.2
+- these are assigned during startup by two scripts in the folder /opt/scripts/boot
+	-autoconfigure_usb0.sh
+	-autoconfigure_usb1.sh
+
+-In BBB,
+ - edit file /etc/resolv.conf
+ - add two lines:
+	nameserver 8.8.8.8
+	nameserver 8.8.4.4
+ - add default gateway
+	$ sudo route add default gw 192.168.7.1 usb0 (PC IP of the network-over-usb connection)
+	$ sudo route add default gw 192.168.6.1 usb1 (PC IP of the network-over-usb connection)
+
+-On host PC side
+ - we have to share the internet over wifi with the network-over-usb connections
+ - ip forwarding
+ - $ sudo cat 1 > /proc/sys/net/ipv4/ip_forward (Permission Denied - file owned by root)
+	Alternate: 	1) $ echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
+ 			2) $ sudo bash -c 'echo 1 > /proc/sys/net/ipv4/ip_forward'
+
+ - Change iptables to share internet between wifi and ethernet
+   	$ sudo iptables --table nat --append POSTROUTING --out-interface wlp3s0 -j MASQUERADE (name of wifi interface in place of wlp3s0)
+	$ sudo iptables --append FORWARD --in-interface enx4006a011f59d -j ACCEPT (name of ethernet interface to share with)
+
+
+From BBB,
+ - $ ping www.google.com
+ - $ apt-get update

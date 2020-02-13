@@ -1,0 +1,70 @@
+-Architecture specific Code organization in linux:
+   Architecture Dependednt 	: Board File, machine(SoC) shared common code,  ARM CPU shared common code
+   Architecture Independent	: Linux kernel shared common code
+
+-arch/arm folder
+ processor specific, board specific and SoC specific detils
+
+Arm code organization in Linux:
+ - CPU specific Code folders
+	arch/arm/kernel
+	arch/arm/mm
+	arch/arm/boot/compressed
+	arch/arm/boot/lib
+ - Board ans SoC specific code
+	arch/arm/mach-XXXXXXXX (XXXXX-omap2 in case of AM335x)
+   -The board file is a C source file which explains the various peripherals on the board (outside SoC). This file usually contains the registration functions and data of various onboard devices eg for Ethernet PHY, EEPROM, LEDs, LCDs etc. Basically the board vendor uses this board file to register various board peripherals with the Linux subsystem. 
+	eg: arch/arm/mach-omap2/(board-omap3beagle.c,board-omap3pandora.c etc.)
+
+   -The machine shared common code contains various C source files which contain the helper functions to initialize and deal with the various onchip peripherals of the SoC and these codes are common among all the SoCs which share common IP for the peripherals.
+	eg: arch/arm/mach-XXX/(serial,gpio,common,clocks,display etc)
+
+   -Nowadays, most of the board files are removed and "board-generic" has been introduced which is generic to all the boards based on OMAP2 + SoCs, thanks to DTB. The filed called ".dt_compat". Linux compares the field in DTB with the ones in board-generic file.
+
+
+
+Driver code organization
+  -kept in drivers/ folder
+  -eg: 	LCD Driver - drivers/video/fbdev
+	Touch Screen Controller - drivers/input/touchscreen/ti_tsc.ko
+	SD/MMC/SDIO - drivers/mmc/host/omap_hsmmc.c
+	SPI - drivers/spi/spi-omap2-mcspi.c
+	I2C - drivers/i2c/busses/i2c-omap.c
+	GPMC - drivers/memory/omap-gpmc.c
+
+
+
+Step 1
+ distclean
+	$  make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- distclean
+
+Step2
+ Apply default configuration
+	$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bb.org_defconfig 
+
+Step3
+ Change configurations by running menuconfig
+	$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
+
+Step4
+ Compile, specify output name (uImage), instruct to generate dtb, provide load address of uImage
+	$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- uImage dtbs LOADADDR=0x80008000 -j4
+Output - uImage, dtb
+
+
+Step5
+ Build the modules - dynamically loadable kernel modules are not yet compiled, compile them separately
+ 	$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules -j4 
+Output - module_names.ko
+
+Step6
+ Install modules in the rootfs. Generated .ko files should be transferred to Root File System. "Module Installation"
+	$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- INSTALL_MOD_PATH=<path of the RFS> modules_install
+
+
+
+
+ 
+	
+
+

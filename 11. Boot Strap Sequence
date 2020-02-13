@@ -1,0 +1,60 @@
+Linux's Boot strap loader consists of
+ - head.s
+ - misc.c
+
+U-boot ----> 						------ Boot Loader
+
+head.s -----> {------misc.c - to uncompress the image} 	------ Bootstrap layer
+	
+head.s -----> head-common.c-----> main.c------>  	------ Linux Kernel
+
+init							------ User Application
+
+
+How U-boot hands off the control to bootstrap loader of the Linux Kernel?
+ - "bootm.c" of U-boot source code
+
+$ vi arch/arm/lib/bootm.c
+ - contains code to read the linux kernel from the memory, verify the checksum, handing off the control is implemented
+
+
+- Important lines of code - 
+
+1)Linux entry point
+ 
+static void boot_jump_linux(bootm_headers_t *images, int flag)
+{
+#ifdef CONFIG_ARM64
+	void (*kernel_entry)(void *fdt_addr, void *res0, void *res1,
+			void *res2);
+	int fake = (flag & BOOTM_STATE_OS_FAKE_GO);
+
+	kernel_entry = (void (*)(void *fdt_addr, void *res0, void *res1,
+				void *res2))images->ep;
+
+	debug("## Transferring control to Linux (at address %lx)...\n",
+		(ulong) kernel_entry);
+
+	....
+
+
+2) ft_addr is holding the address at which the "Device tree binary" is present in the DDR memory  
+
+	....
+	r2 = (unsigned long)images->ft_addr;
+
+
+ - Device tree binary or flattened device tree - binary which describes various peripherals on the board
+
+
+3) U-boot hands off control to the Kernel's bootstrap loader
+	....
+	kernel_entry(0, machid, r2);
+
+
+	machid 	- machine id of the board which is detected by the u-boot, passed to linux via register r1
+	r2	- address of the DTB present in the DDR RAM. Passed to Linux via register r2
+
+
+
+

@@ -1,0 +1,102 @@
+Trivial File Transfer Protocol
+
+SD Card contains,
+	SPL
+	u-boot.img
+	uEnv.txt
+
+In host system, folder /var/lib/tftpboot contains
+	uImage
+	Initramfs
+	DTB
+
+uEnv.txt contains all the commands to automate the process of TFTP boot.
+
+-boot the board via SDCard upto U-boot
+-U-boot reads uEnv.txt and executes the TFTP commands to fetch and place the various boot images from tftp server onto the DDR memory.
+-command u-boot to boot from the location where it placed the linux kernel image on the DDR memory.
+
+
+
+
+
+Setting up a TFTP server on Ubuntu host
+
+Step 1:  First on your Ubuntu host run the below command using your terminal program.
+
+This command installs the tftpd , xinetd(eXtended InterNET Daemon) . tftpd is a server for the Trivial File Transfer Protocol.
+
+$ sudo apt-get install xinetd tftp tftpd
+
+Step 2 : Create/Open the file “tftp” in the below directory
+
+$ sudo vi /etc/xinetd.d/tftp    and put the below entry in to this file  and save it
+
+service tftp
+{
+protocol = udp
+port = 69
+socket_type = dgram
+wait = yes
+user = nobody
+server = /usr/sbin/in.tftpd
+server_args = /var/lib/tftpboot -s
+disable = no
+}
+
+Step3 :
+
+Create a folder /var/lib/tftpboot and execute below commands
+
+$sudo mkdir /var/lib/tftpboot
+
+$sudo chmod -R 777 /var/lib/tftpboot
+
+$sudo chown -R nobody /var/lib/tftpboot
+
+Step 4: Restart the xinetd service. Now the xinetd daemon is running.
+
+$ sudo /etc/init.d/xinetd restart 
+
+
+
+
+Keep the required files in /var/lib/tftpboot
+
+-Change the ip address of ethernet interface on host pc to 192.168.27.1
+
+-Boot the board from eMMC
+-Get into U-boot prompt and execute the following commands
+=>setenv serverip 192.168.27.1
+
+=>setenv ipaddr 192.168.27.2
+
+Syntax: tftpboot {kernel_load_address} {image_name}
+=>tftpboot 0x82000000 uImage
+
+=>tftpboot 0x88000000 am335x-boneblack.dtb
+
+=>tftpboot 0x88080000 initramfs
+
+=>setenv bootargs console=ttyO0,115200 root=/dev/ram0 rw initrd=0x88080000
+
+Syntax: bootm ${kernel_load_address} ${initramfs_load_address} ${dtb_load_address}
+=>bootm 0x82000000 0x88080000 0x88000000
+
+
+Advantages of TFTP boot:
+1) Fast transfer of files from Host PC to development board
+2) During your development if you keep changing your boot binaries or file system, then tftpboot procedure will save lots of time related to transfer of those images for files to the board for testing.
+3) can automate tftpboot using uboot's uEnv.txt 
+
+To copy a file from source (HOST) to destination (BBB)
+-In the host, keep the file in /var/lib/tftpboot
+-On BBB, $ tftp -r {remote_filename} -g {tftp_server_addr}  
+
+
+
+
+
+
+
+

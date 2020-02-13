@@ -1,0 +1,20 @@
+-initializes SoC to a point that U-boot (third stage boot) can be loaded into the external RAM (DDR).
+
+Jobs
+1. does UART console configuration to print out the debug messages
+2. Reconfigures the PLL to desired value.
+3. Initializes the DDR registers to use the DDR memory.
+4. Does muxing configurations of boot peripherals pin, becuase the next job is to load the U-boot from the boot peripherals
+5. If MLO is going to get the u-boot from the MMC0 or MMC1 then it will do the mux configurations to bring out the MMC0 or MMC1
+6. Copies the U-boot image to DDR m/y and passes control to it. 
+
+-U-boot will also have its image header (load address = 0x8000 0000 and size of the image to follow)
+
+Why cant RBL directly copy U-boot to internal SRAM? Why SPL is loaded?
+Ans: Internal SRAM is only 128 kB. Its not possible to squeeze U-boot to this size.
+
+Why cant RBL copy U-boot directly to DDR (external RAM) ?
+Ans: ROM code won’t be having any idea about what kind of DDR RAM being used in the product to initialize it. DDR RAM is purely product/ board specific. RBL has no idea in which product this chip will be used and what kind of DDR will be used, and what are DDR tuning parameters like speed, bandwidth, clock augments, size, etc. Because to read ( or write) anything from/to DDR RAM , first, the tuning parameters must be set properly and DDR registers must be initialized properly. Every different manufacture will have different parameters for their RAM. So, that’s the reason RBL never care about initializing DDR controller of the chip and DDR RAM which is connected to chip. RBL just tries to fetch the SPL found in memory devices such as eMMC and SD card or peripherals like UART,EMAC,etc. And in the SPL/MLO, you should know, what kind of DDR is connected to your product and based on that you have to change the SPL code , rebuild it and generate the binary to use it as the second stage boot loader. 
+
+
+

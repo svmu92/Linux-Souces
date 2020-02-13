@@ -1,0 +1,12 @@
+-Uboot source folder
+
+- /board/ti/am335-x folder has the board specific initialization source files for BBB.
+- The processor specific initializations are found in arch/arm/cpu/
+	- armv7 folder for BBB.
+	- Start.s can be found here - where RBL hands over to SPL
+- Folder config/
+	- default configuration files - basic and required functionalities/configurations
+	- am335-x_boneblack_defconfig
+
+
+

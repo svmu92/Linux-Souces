@@ -1,0 +1,75 @@
+-transferring the boot images from HOST PC to the board via serial port(UART) in order to boot the board.
+- protocols we can use include:
+	Xmodem
+	Ymodem
+	Zmodem
+	Kermit etc.
+-We have to keep SPL,U-boot, linux kernel image, DTB and the file system on the host PC.
+
+-Booting from UART
+ When S2 is pressed, boot order is SPIO--->MMC0--->USB0--->UART0
+ When no image is found in first 3 sources, it checks for UART0
+
+-USB0 is P4 - mini USB cable, so dont use that, give power using adapter (explained in TRM - USB boot)
+Errata Note: The system is delayed upto 4.5 minutes before continuing to next boot device if an attempt to boot from Ethernet fails for any reason.
+
+-Peripheral booting
+The ROM code can boot from three different peripheral interfaces.
+	EMAC:1000/100/10Mbps Ethernet,using standardTCP/IP network boot protocols BOOTP and TFTP
+	USB:Full speed,clientmode
+	UART:115.2Kbps,8 bits, no parity,1 stop bit, no flow control
+
+-UART boot procedure
+Device Initialization
+	UART boot uses UART0.
+	UART0 is configured to run at 115200 baud,8-bits,no parity,1 stop bit and no flow control.
+Boot Image Download
+	UART boot uses x-modem client protocol to receive the bootimage.
+	
+
+
+
+
+
+
+
+
+- Once SPL image is received, it is placed into the internal RAM of the SoC.
+- executes SPL
+- now it tries to get the third stage bootloader (U-boot) over UART0 using Xmodem protocol.
+- when u-boot executes, we can use u-boot commands such as xmodem or ymodem to load rest of the images like linux kernel image, DTB, initramfs into the DDR memory of the board at recommended addresses.
+
+
+
+-Recommended addresses
+Kernel (uImage)	-	0x82000000
+DTB		-	0x88000000
+Initramfs	-	0x88080000
+
+
+Steps
+1) Power on the board with S2 pressed, no SDCard and no USB Cable
+2) Transfer spl
+3) Transfer uboot.img
+4) Press space to get into uboot prompt
+=>loadx 0x82000000
+	- transfer uImage file
+5)
+=>loadx 0x88000000
+	- transfer DTB file
+6)
+=>loadx 0x88080000
+	- transfer initramfs file
+7) 
+=>setenv bootargs console=ttyO0,115200 root=/dev/ram0 rw initrd=0x88080000
+
+8)bootm ${kernel_load_address} ${initramfs_load_address} ${dtb_load_address}
+=>bootm 0x82000000 0x88080000 0x88000000
+
+
+
+Minicom Shortcut keys
+
+To send a file 		=> ctrl+A, then S
+To change directory 	=> ctrl+A, then O
+To echo on/off		=> ctrl+A, then E

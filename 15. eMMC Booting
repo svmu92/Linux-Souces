@@ -1,0 +1,31 @@
+eMMC flashing using SDCard
+
+1) Download the latest Debian OS
+2) Write the bootable image to the SD Card first
+3) Boot the board from SD Card
+4) Execute the eMMC flasher script
+5) eMMC flasher script will flash all the contents of the SD Card on to the eMMC memory
+
+
+
+- Script will first divide the eMMC memory into two partitions called BOOT and ROOTFS
+- Then it will format the partitions to create file system FAT and EXT4 respectively
+- Then copies the images to the partitions
+
+Command to check the debian version on BBB:
+$ lsb_relese -da
+
+
+- Download the latest debian image (compressed) file from http://beagleboard.org/latest-images
+- Extract it to get the image
+- Copy it to the SDCard (sudo dd if=/path/to/.img of=/dev/mmcblk0 ---- takes around 15 mins
+- Unmount and insert the SD Card again.
+- Edit boot/uEnv.txt to uncomment the following line:
+	#cmdline=init=/opt/scripts/tools/eMMC/init-eMMC-flasher-v3.sh
+- Save and unmount
+- Take out the SDCard and inset to BBB
+- Press S2 while giving power so that it boots from SDCard
+- Once it boots, it starts flashing the image to eMMC on its own. ---- takes around 20 mins with max time spent to create rootfs
+- Once its over, it shuts down power.
+- Remove the SDCard and boot normally(no S2) from eMMC. Done!
+

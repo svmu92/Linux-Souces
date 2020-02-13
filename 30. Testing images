@@ -1,0 +1,26 @@
+-Copy the following into 1st partition of SD Card
+	-uEnv.txt
+	-MLO
+	-u-boot.img
+
+-Copy the following into /var/lib/tftpboot
+	-uImage
+	-am335x-boneblack.dtb
+-Copy the RFS to /srv/nfs/bbb
+	-bin
+	-lib
+	-sbin
+	-usr
+	-linuxrc
+
+-Change settings to grant access to nfs clients
+	-vi /etc/export
+	-add line : /srv/nfs/bbb 192.168.7.2(rw,sync,no_root_squash,no_subtree_check)
+
+
+-NFS Mounting
+	-$ sudo exportfs -a
+	-$ sudo exportfs -rv
+	-$ sudo service nfs-kernel-server restart
+
+ 

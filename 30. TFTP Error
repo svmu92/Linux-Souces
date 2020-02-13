@@ -1,0 +1,21 @@
+Loaded environment from /uEnv.txt
+Importing environment from mmc ...
+Checking if uenvcmd is set ...
+gpio: pin 56 (gpio 56) value is 1
+Running uenvcmd ...
+Booting from network...
+link up on port 0, speed 100, full duplex
+Using cpsw device
+
+TFTP from server 192.168.7.1; our IP address is 192.168.7.2
+Filename '/var/lib/tftp/uImage'.
+
+TFTP error: trying to overwrite reserved memory...
+link up on port 0, speed 100, full duplex
+Using cpsw device
+TFTP from server 192.168.7.1; our IP address is 192.168.7.2
+Filename '/var/lib/tftp/am335x-boneblack.dtb'.
+
+TFTP error: trying to overwrite reserved memory...
+bootm - boot application image from memory
+

@@ -1,0 +1,88 @@
+U-Boot SPL 2016.01-00001-g4eb802e (Jan 13 2016 - 11:14:31)
+Trying to boot from MMC
+bad magic
+
+
+U-Boot 2016.01-00001-g4eb802e (Jan 13 2016 - 11:14:31 -0600), Build: jenkins-github_Bootloader-Builder-313
+
+       Watchdog enabled
+I2C:   ready
+DRAM:  512 MiB
+Reset Source: Power-on reset has occurred.
+MMC:   OMAP SD/MMC: 0, OMAP SD/MMC: 1
+Using default environment
+
+Net:   <ethaddr> not set. Validating first E-fuse MAC
+cpsw, usb_ether
+Press SPACE to abort autoboot in 2 seconds
+Card did not respond to voltage select!
+gpio: pin 56 (gpio 56) value is 0
+gpio: pin 55 (gpio 55) value is 0
+gpio: pin 54 (gpio 54) value is 0
+gpio: pin 53 (gpio 53) value is 1
+Card did not respond to voltage select!
+Card did not respond to voltage select!
+switch to partitions #0, OK
+mmc1(part 0) is current device
+Scanning mmc 1:1...
+gpio: pin 56 (gpio 56) value is 0
+gpio: pin 55 (gpio 55) value is 0
+gpio: pin 54 (gpio 54) value is 0
+gpio: pin 53 (gpio 53) value is 1
+switch to partitions #0, OK
+mmc1(part 0) is current device
+gpio: pin 54 (gpio 54) value is 1
+Checking for: /uEnv.txt ...
+Checking for: /boot.scr ...
+Checking for: /boot/boot.scr ...
+Checking for: /boot/uEnv.txt ...
+gpio: pin 55 (gpio 55) value is 1
+1684 bytes read in 14 ms (117.2 KiB/s)
+Loaded environment from /boot/uEnv.txt
+Checking if uname_r is set in /boot/uEnv.txt...
+gpio: pin 56 (gpio 56) value is 1
+Running uname_boot ...
+loading /boot/vmlinuz-4.1.15-ti-rt-r43 ...
+7800752 bytes read in 443 ms (16.8 MiB/s)
+loading /boot/dtbs/4.1.15-ti-rt-r43/am335x-boneblack.dtb ...
+60524 bytes read in 40 ms (1.4 MiB/s)
+loading /boot/initrd.img-4.1.15-ti-rt-r43 ...
+4096241 bytes read in 241 ms (16.2 MiB/s)
+debug: [console=ttyO0,115200n8 root=UUID=6637f9a3-6228-4da8-93a2-21bde6c2ae76 ro rootfstype=ext4 rootwait coherent_pool=1M quiet cape_universa.
+debug: [bootz 0x82000000 0x88080000:3e80f1 0x88000000] ...
+Kernel image @ 0x82000000 [ 0x000000 - 0x7707b0 ]
+## Flattened Device Tree blob at 88000000
+   Booting using the fdt blob at 0x88000000
+   Loading Ramdisk to 8fc17000, end 8ffff0f1 ... OK
+   Loading Device Tree to 8fc05000, end 8fc16c6b ... OK
+
+Starting kernel ...
+
+[    3.486581] wkup_m3_ipc 44e11324.wkup_m3_ipc: could not get rproc handle
+[    3.797667] cpu cpu0: cpu0 clock notifier not ready, retry
+[    3.943370] bone_capemgr bone_capemgr: slot #0: No cape found
+[    4.003344] bone_capemgr bone_capemgr: slot #1: No cape found
+[    4.063345] bone_capemgr bone_capemgr: slot #2: No cape found
+[    4.123343] bone_capemgr bone_capemgr: slot #3: No cape found
+Loading, please wait...
+fsck from util-linux 2.25.2
+fsck: error 2 (No such file or directory) while executing fsck.ext4 for /dev/mmcblk0p1
+fsck exited with status code 8
+[   12.299921] systemd-fsck[192]: BOOT: clean, 123321/233856 files, 832250/933632 blocks
+[   20.957496]  remoteproc1: failed to load am335x-pru0-fw
+[   20.963136]  remoteproc1: request_firmware failed: -2
+[   21.303669] pru-rproc 4a334000.pru0: rproc_boot failed
+[   21.641441]  remoteproc1: failed to load am335x-pru1-fw
+[   21.648421]  remoteproc1: request_firmware failed: -2
+[   21.847699] pru-rproc 4a338000.pru1: rproc_boot failed
+
+Debian GNU/Linux 8 beaglebone ttyS0
+
+BeagleBoard.org Debian Image 2016-01-24
+
+Support/FAQ: http://elinux.org/Beagleboard:BeagleBoneBlack_Debian
+
+default username:password is [debian:temppwd]
+
+The IP Address for usb0 is: 192.168.7.2
+beaglebone login: 

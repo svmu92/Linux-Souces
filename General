@@ -1,0 +1,14 @@
+512 MB DDR3L (SDRAM) Memory connected through EMIF interface of AM3358 SoC
+
+4GB eMMC connected through GPMC/MMC interface of SoC
+
+MMC0 - SDCard
+MMC1 - eMMC
+
+SDCard connected to SoC through GPMC/MMC interface
+
+In AM3558 Soc,
+- 1 core
+- No DSP core
+- NEON™ SIMD Coprocessor
+

@@ -1,0 +1,19 @@
+-$ make beaglebone_defconfig
+-$ make menuconfig
+	-Toolchain ----> Toolchain type ----> External toolchain (allows pre-built toolchain for compilation)
+	-Toolchain ----> Toolchain -----> Linaro ARM 2018.05 
+	-Toolchain ----> Toolchain origin ----> Pre-installed toolchain
+	-Toolchain ----> Toolchain path ----> provide the path to bin folder of the toolchain
+
+	-System Configuration ----> System hostname ----> give hostname
+	-System Configuration ----> System banner -----> give banner
+	-System Configuration ----> Init system ----> busybox
+	-System Configuration ----> Root password
+	-System Configuration ----> Run a getty (login prompt) after boot ----> Baudrate (115200), TTY Port (ttyO0)
+	
+	-Kernel ----> Disable building
+
+	-Target packages ----> Netwrorking applications ----> openssh
+	
+	-Bootloaders ----> deselect U-boot
+

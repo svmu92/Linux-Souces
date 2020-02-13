@@ -1,0 +1,12 @@
+
+- Install modules in the rootfs. Generated .ko files should be transferred to Root File System. "Module Installation"
+	$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- INSTALL_MOD_PATH=<path of the RFS> modules_install
+		- Should be executed from linux kernel folder from linux compilation was executed
+		-<path of RFS> shoulde be the folder in which RFS was installed
+	
+- A new folder lib will be created in RFS folder
+- lib/modules/<kernel version>/modules.builtin - list all the statically loaded kernel modules
+- lib/modules/<kernel version>/modules.dep - list of dependencies for dynamically loaded kernel modules
+- When $ modprobe <module.ko> - command is used, it checks the modules.dep file for dependencies and loads them first.
+- When $ insmod - command is used, it just tries to load the module without checking for dependencies
+ 

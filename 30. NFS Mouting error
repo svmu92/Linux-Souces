@@ -1,0 +1,31 @@
+ IP-Config: Guessing netmask 255.255.255.0
+[    7.511858] IP-Config: Complete:
+[    7.515143]      device=eth0, hwaddr=40:06:a0:11:f5:9c, ipaddr=192.168.7.3, mask=255.255.255.0, gw=255.255.255.255
+[    7.525556]      host=192.168.7.3, domain=, nis-domain=(none)
+[    7.531343]      bootserver=255.255.255.255, rootserver=192.168.7.1, rootpath=
+[    7.539440] Waiting 5 sec before mounting root device...
+[  107.706522] VFS: Unable to mount root fs via NFS, trying floppy.
+[  107.713165] List of all partitions:
+[  107.716755] b300        15462400 mmcblk0  driver: mmcblk
+[  107.722143]   b301         1048576 mmcblk0p1 abf575f7-01
+[  107.727503]   b302        14412800 mmcblk0p2 abf575f7-02
+[  107.732862] b308         3735552 mmcblk1  driver: mmcblk
+[  107.738237]   b309         3731456 mmcblk1p1 cb5b04fb-01
+[  107.743595] b318            2048 mmcblk1boot1  (driver?)
+[  107.748954] b310            2048 mmcblk1boot0  (driver?)
+[  107.754322] No filesystem could mount root, tried:  nfs
+[  107.759601] Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(2,0)
+[  107.767907] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 4.4.62 #1
+[  107.773850] Hardware name: Generic AM33XX (Flattened Device Tree)
+[  107.780012] [<c001adc4>] (unwind_backtrace) from [<c0015a9c>] (show_stack+0x20/0x24)
+[  107.787802] [<c0015a9c>] (show_stack) from [<c05bbc3c>] (dump_stack+0x8c/0xa0)
+[  107.795069] [<c05bbc3c>] (dump_stack) from [<c01602a0>] (panic+0x100/0x288)
+[  107.802073] [<c01602a0>] (panic) from [<c0edb544>] (mount_block_root+0x238/0x264)
+[  107.809593] [<c0edb544>] (mount_block_root) from [<c0edb6a8>] (mount_root+0x138/0x154)
+[  107.817547] [<c0edb6a8>] (mount_root) from [<c0edb81c>] (prepare_namespace+0x158/0x19c)
+[  107.825589] [<c0edb81c>] (prepare_namespace) from [<c0edb078>] (kernel_init_freeable+0x260/0x278)
+[  107.834509] [<c0edb078>] (kernel_init_freeable) from [<c0a55ef0>] (kernel_init+0x1c/0xf0)
+[  107.842734] [<c0a55ef0>] (kernel_init) from [<c0010f40>] (ret_from_fork+0x14/0x34)
+[  107.850350] ---[ end Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(2,0)
+[  110.558025] random: nonblocking pool is initialized
+

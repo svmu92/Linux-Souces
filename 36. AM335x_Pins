@@ -1,0 +1,46 @@
+128 GPIOs
+-not all are available in BBB expansion headers.
+- 8 modes per pin
+-On P8 expansion header, we can get 44 gpios 
+-On P9 expansion header, we can get 23 gpios
+
+-gpio1[6] - module 1, pin 6 - 1*32 + 6 = gpio38
+
+	module no * 32 + pin no 
+-/sys/class/gpio
+	-list all the gpios available
+
+
+
+
+- Control Module
+pad (pin) configuration registers are present at offset 800h from Control Module Base address
+	Base Address 	-	0x44E10000 
+	Offset		-	0x00000800
+------------------------------------------------
+	Register address-	0x44E10800
+				----------
+				----------
+
+-by default pin will be in input mode.
+- conf_module>_pin> register field description
+	Bits		Description		Default		Configure value desciption
+	31-20		Reserved		0h
+	19-7		Reserved		0h
+	6		slewctrl		X		0-fast, 1-slow
+	5		rxactive		1h		0-received disabled, 1-receier enabled
+	4		putypesel		X		0-pulldown, 1-pullup
+	3		puden			X		0-pullup/pulldown enabled, 1-pullup/pulldown disabled
+	2-0		mode			X		7 (0b111)-gpio, others - refer manual		
+
+
+-In /sys/kernel/debug/pinctrl,we can see the folder 44E10800.pinmux
+-In this folder, file called "pins" lists the memory contents of the register
+
+-Device Tree binary has overriden the default values
+-in kernel source, arch/arm/boot/dts/am335x_boneblack.dts 
+
+-In /sys/kernel/debug, we have file "gpio"
+ - lists all the gpios , names , physical pin number if available on expansion headers (P9_X,P8_X), in hi/lo
+
+					

@@ -1,0 +1,10 @@
+-From host PC,
+ $ ssh -l root 192.168.7.3
+-Permission will be denied
+
+-In /srv/nfs/bbb/etc/ssh, edit sshdconfig, uncomment #PermitRootLogin prohibit-password and give PermitRootLogin yes
+-Then run /etc/init.d/s50sshd script with argument restart
+
+
+
+

@@ -1,0 +1,17 @@
+$ sudo putty
+
+In PuTTY,
+Select /dev/ttyusb0 as name, 115200 as speed and click OK
+
+
+Once the ddebug messages appear, type username:root
+No need of password
+
+
+To blink the LEDs,
+navigate to /sys/class/leds/beaglebone:green:usrX#
+and type : $ echo 'heartbeat' > trigger
+
+$uname -a
+Output:
+
