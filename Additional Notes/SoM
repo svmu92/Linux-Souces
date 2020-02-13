@@ -1,0 +1,1 @@
+ in system on module, there will be a common PCB which consists of lots of commonly used peripherals and clock circuitry and a detachable processor PCB at the top . So you can reuse the bottom plate with other processors or SOCs , that flexibility is not there in beaglebone.
