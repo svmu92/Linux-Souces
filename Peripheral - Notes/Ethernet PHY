@@ -1,0 +1,19 @@
+Ethernet PHY
+
+A PHY, an abbreviation for "physical layer", is an electronic circuit, usually implemented as a chip, required to implement physical layer functions of the OSI model.
+
+A PHY connects a link layer device (often called MAC as an acronym for medium access control) to a physical medium such as an optical fiber or copper cable. A PHY device typically includes both Physical Coding Sublayer (PCS) and Physical Medium Dependent (PMD) layer functionality.[1] 
+
+
+
+The Ethernet PHY is a component that operates at the physical layer of the OSI network model. It implements the Ethernet physical layer portion of the 1000BASE-T, 100BASE-TX, and 10BASE-T standards.
+
+A PHY chip (PHYceiver) is commonly found on Ethernet devices. Its purpose is to provide analog signal physical access to the link. It is usually with a Media Independent Interface (MII) interfaced to a MAC chip in a microcontroller or other system that takes care of the higher layer functions.
+
+More specifically, the Ethernet PHY is a chip that implements the hardware send and receive function of Ethernet frames; it interfaces between the analog domain of Ethernet's line modulation and the digital domain of link-layer packet signaling.[2] The PHY usually does not handle MAC addressing, as that is the link layer's job. Similarly, Wake-on-LAN and Boot ROM functionality is implemented in the network interface card (NIC), which may have PHY, MAC, and other functionality integrated into one chip or as separate chips.
+
+Examples include the Microsemi SimpliPHY and SynchroPHY VSC82xx/84xx/85xx/86xx family, Marvell Alaska 88E1310/88E1310S/88E1318/88E1318S Gigabit Ethernet transceivers and offerings from Intel[3] and ICS.[4] 
+
+
+
+In BBB, PHY is of make SMSC

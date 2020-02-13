@@ -1,0 +1,26 @@
+What is eMMC?
+
+ 
+
+The term eMMC is short for "embedded Multi-Media Controller" and refers to a package consisting of both flash memory and a flash memory controller integrated on the same silicon die.  The eMMC solution consists of at least three components - the MMC (multimedia card) interface, the flash memory, and the flash memory controller - and is offered in an industry-standard BGA package.
+
+Today’s embedded applications such as digital cameras, smart phones, and tablets almost always store their content on flash memory. In the past, this has required a dedicated controller to manage the reading and writing of data, driven by the application CPU. However, as semiconductor technology has evolved to allow vastly increased storage density, it has become inefficient for the controller to manage these functions from outside the flash memory die. Hence, eMMC was developed as a standardized method for bundling the controller into the flash die. As eMMC has improved, the standard has also provisioned for features such as secure erase and trim and high-priority interrupt to meet the demand for high performance and security. So while the eMMC standard was created to improve data rates and throughputs for high-density chips designed to store high-resolution video, newer generations are doing more for more applications, and each generation of the standard will include additional new features for a richer end-user experience. 
+
+The widely accepted standard for eMMC is v4.5 as defined in JESD84-A441: Embedded MultiMediaCard (e•MMC) Product Standard v4.5 published by JEDEC in June 2011. Recently, JEDEC has also published the JESD84-B45: Embedded MultiMediaCard (e•MMC), Electrical Standard (Version 4.5 Device) for eMMC v4.5 in June 2011.
+Where is eMMC used?
+
+eMMC is suitable for high performance applications such as portable consumer electronic products for e.g. smartphones, digital tablets, multi-media players, PDAs, navigational systems and digital cameras. eMMC can thus be used for mobile devices, enhanced storage solutions and as replacement for traditional storage media (i.e., HDDs).
+What are the benefits of eMMC?
+
+The eMMC architecture integrating the flash memory controller in the same package simplifies the application interface design and frees the host processor from low-level flash memory management. This benefits product developers by simplifying the non-volatile memory interface design and qualification process – resulting in a reduction in time-to-market as well as facilitating support for future flash device offerings.
+
+In other words, eMMC memory hides the complexities of flash memory technology in a convenient "plug-and-play" package. Obviously, this reduces time and effort for developers.
+
+Secondly, eMMC eliminates the need to develop interface software for all types of NAND memory by integrating the embedded controller into the memory chip and providing an easy-to-use memory solutions package for high-speed data transmissions by devices, such as mobile phones. It also eliminates the need for a memory expansion slot by stacking several memory functions vertically, resulting in a very small footprint for the memory devices.
+
+Further, this design makes it possible to select suppliers for subcomponents from a wider base, which results in increased revenues with lower time-to-market.
+What is the required software support for eMMC?
+
+The eMMC v4.41 standard provides performance, security and reliability features such as high-priority interrupt and secure erase. These features, such as secure erase and secure trim, require software support from the file system beyond the driver, without which, the application call will not reach the storage media via the file system. Any organization, planning to move to eMMC, would need to provision for such software support from internal or external sources.
+
+With the eMMC applications market forecasted to expand to over 700 million units in 2013, there is a need for flash drivers and file systems such as those made by Datalight to specifically support eMMC standards so as to fully utilize the security features offered by them.
